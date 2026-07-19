@@ -1,0 +1,15 @@
+{
+  "name": "JA Collections",
+  "short_name": "JA Collections",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#fffaf7",
+  "theme_color": "#7c3aed",
+  "icons": [
+    {
+      "src": "https://img.icons8.com/fluency/96/shop.png",
+      "sizes": "96x96",
+      "type": "image/png"
+    }
+  ]
+}
