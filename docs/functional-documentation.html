@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>JA Collections | Functional Documentation</title>
+    <style>
+      :root {
+        color-scheme: light;
+        --bg: #fffaf7;
+        --surface: #ffffff;
+        --text: #2f2434;
+        --muted: #6e6377;
+        --accent: #7c3aed;
+        --accent-dark: #5b21b6;
+        --border: #e8dff5;
+      }
+      body {
+        font-family: Inter, Arial, sans-serif;
+        margin: 0;
+        background: var(--bg);
+        color: var(--text);
+        line-height: 1.65;
+      }
+      .container {
+        max-width: 1000px;
+        margin: 0 auto;
+        padding: 32px 20px 80px;
+      }
+      .hero {
+        background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+        color: white;
+        border-radius: 24px;
+        padding: 32px;
+        box-shadow: 0 12px 30px rgba(92, 33, 182, 0.18);
+      }
+      .hero h1 { margin: 0 0 10px; font-size: 2rem; }
+      .hero p { margin: 0; color: #f2eaff; }
+      .card {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 18px;
+        padding: 20px 22px;
+        margin-top: 20px;
+        box-shadow: 0 10px 24px rgba(0,0,0,0.04);
+      }
+      h2 { margin-top: 0; color: var(--accent-dark); }
+      h3 { margin-bottom: 8px; }
+      ul { padding-left: 20px; }
+      .steps { display: grid; gap: 12px; }
+      .pill {
+        display: inline-block;
+        background: #efe3ff;
+        color: var(--accent-dark);
+        padding: 4px 10px;
+        border-radius: 999px;
+        font-size: 0.9rem;
+        font-weight: 600;
+        margin-right: 6px;
+        margin-bottom: 6px;
+      }
+      code, .code-box {
+        background: #f7f2ff;
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        padding: 2px 6px;
+      }
+      .code-box { display: block; padding: 10px 12px; margin-top: 10px; }
+      a { color: var(--accent-dark); }
+      .footer-note { margin-top: 24px; color: var(--muted); font-size: 0.95rem; }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <section class="hero">
+        <h1>JA Collections – Functional Documentation</h1>
+        <p>This guide explains how customers and admins can use the website clearly and simply.</p>
+      </section>
+
+      <section class="card">
+        <h2>1. Website purpose</h2>
+        <p>JA Collections is an online fashion marketplace for premium sarees, festive wear, jewelry, and modern women's fashion. Customers can browse products, add favorites, place orders, and contact support. Admin users can manage products, offers, inventory, and customer orders.</p>
+      </section>
+
+      <section class="card">
+        <h2>2. How to open the website</h2>
+        <ul>
+          <li>Open the published website link: <a href="https://eswar0930.github.io/ja_Collections/">https://eswar0930.github.io/ja_Collections/</a></li>
+          <li>The home page displays featured collections, promotion banners, product categories, and shopping tools.</li>
+        </ul>
+      </section>
+
+      <section class="card">
+        <h2>3. Main sections of the website</h2>
+        <div class="steps">
+          <div><span class="pill">Home</span>Shows featured fashion collections and the latest promotions.</div>
+          <div><span class="pill">Catalog</span>Displays all available products with filters and sorting options.</div>
+          <div><span class="pill">Cart</span>Lets users review selected items and proceed to checkout.</div>
+          <div><span class="pill">My Account</span>Shows profile details, past orders, and account settings.</div>
+          <div><span class="pill">Support</span>Provides customer care contact details.</div>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>4. How customers browse products</h2>
+        <ol>
+          <li>Use the search box at the top to search by item name, vendor, or category.</li>
+          <li>Use the filters on the left side to choose a category, set a maximum price, and sort products by featured, price, or rating.</li>
+          <li>Click on any product card to view product details, pricing, stock, and a short description.</li>
+        </ol>
+      </section>
+
+      <section class="card">
+        <h2>5. How to add products to cart and wishlist</h2>
+        <ol>
+          <li>From the product card, click the desired product to view details.</li>
+          <li>Use the cart option to add items to the shopping cart.</li>
+          <li>Use the wishlist button to save items for later.</li>
+          <li>Open the cart panel to review quantities, subtotal, and checkout options.</li>
+        </ol>
+      </section>
+
+      <section class="card">
+        <h2>6. How to place an order</h2>
+        <ol>
+          <li>Open the cart and click <strong>Proceed to checkout</strong>.</li>
+          <li>Enter the customer's full name and delivery address.</li>
+          <li>Select a payment mode such as COD, Card, or UPI.</li>
+          <li>Confirm the order by clicking <strong>Place order</strong>.</li>
+        </ol>
+        <p><strong>Note:</strong> The website stores order information securely and shows the order details in the customer account section.</p>
+      </section>
+
+      <section class="card">
+        <h2>7. How to create an account or log in</h2>
+        <ol>
+          <li>Click <strong>Login</strong> at the top-right of the page.</li>
+          <li>Choose <strong>Create account</strong> if you are a new customer.</li>
+          <li>Enter your name, contact number or email, and password.</li>
+          <li>After login, click <strong>My account</strong> to view profile details and order history.</li>
+        </ol>
+      </section>
+
+      <section class="card">
+        <h2>8. How to use the account section</h2>
+        <ul>
+          <li><strong>View profile:</strong> Check the account information displayed on the page.</li>
+          <li><strong>Edit profile:</strong> Update the name, contact details, or password.</li>
+          <li><strong>View orders:</strong> Review all past orders and their status.</li>
+          <li><strong>Logout:</strong> Sign out securely from the account section.</li>
+        </ul>
+      </section>
+
+      <section class="card">
+        <h2>9. How to contact support</h2>
+        <ul>
+          <li>Click <strong>Support</strong> from the top navigation.</li>
+          <li>You will see the contact email, phone number, and support hours.</li>
+          <li>Use the provided contact details for product questions, order concerns, or general assistance.</li>
+        </ul>
+      </section>
+
+      <section class="card">
+        <h2>10. Admin functionality</h2>
+        <p>The admin portal is intended for the website owner or internal team. From the admin section, they can:</p>
+        <ul>
+          <li>Add new products to the catalog</li>
+          <li>Edit or remove current products</li>
+          <li>Update stock levels and pricing</li>
+          <li>Create promotional offers</li>
+          <li>View customer orders and manage users</li>
+        </ul>
+      </section>
+
+      <section class="card">
+        <h2>11. Tips for a better experience</h2>
+        <ul>
+          <li>Refresh the page if a recent update does not appear immediately.</li>
+          <li>Use the search and filters to quickly locate products.</li>
+          <li>Log in before placing an order to save your account information.</li>
+        </ul>
+      </section>
+
+      <div class="footer-note">
+        For any support or enhancement request, contact the website administrator through the support section.
+      </div>
+    </div>
+  </body>
+</html>
