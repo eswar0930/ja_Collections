@@ -1,0 +1,15 @@
+version: '3.9'
+services:
+  web:
+    build: .
+    ports:
+      - '5000:5000'
+    environment:
+      - FLASK_ENV=production
+      - FLASK_DEBUG=false
+      - SECRET_KEY=replace-with-a-strong-secret
+      - SESSION_COOKIE_SECURE=true
+      - DATABASE_PATH=/app/shop.db
+    volumes:
+      - .:/app
+    restart: unless-stopped

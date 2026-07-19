@@ -1,0 +1,19 @@
+# Python bytecode
+__pycache__/
+*.py[cod]
+
+# Virtual environments
+.venv/
+venv/
+
+# Test and cache artifacts
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Local environment files
+.env
+.env.*
+
+# Local database files
+shop.db
