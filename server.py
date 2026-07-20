@@ -14,6 +14,11 @@ from flask import Flask, jsonify, request, g, session
 from werkzeug.security import generate_password_hash, check_password_hash
 from dotenv import load_dotenv
 
+try:
+    from flask_cors import CORS
+except ImportError:
+    CORS = None
+
 load_dotenv()
 
 try:
@@ -27,6 +32,11 @@ except ImportError:
     stripe = None
 
 app = Flask(__name__, static_folder='.', static_url_path='')
+
+# Enable CORS for GitHub Pages frontend and local development
+if CORS is not None:
+    CORS(app, resources={r"/api/*": {"origins": ["*"], "methods": ["GET", "POST", "PUT", "DELETE", "OPTIONS"], "allow_headers": ["Content-Type", "X-CSRF-Token"]}}, supports_credentials=True)
+
 app.config['DATABASE'] = os.environ.get('DATABASE_PATH', os.path.join(os.path.dirname(__file__), 'shop.db'))
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'dev-secret-key')
 app.config['STRICT_ADMIN_AUTH'] = os.environ.get('STRICT_ADMIN_AUTH', 'false').lower() == 'true'

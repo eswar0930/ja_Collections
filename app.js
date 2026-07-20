@@ -1,3 +1,15 @@
+// ============================================================================
+// API Configuration - Update this URL for production backend
+// ============================================================================
+const API_BASE_URL = window.location.hostname === 'localhost' 
+  ? 'http://localhost:5000' 
+  : (window.API_URL || 'https://ja-collections-api.onrender.com');
+
+function makeApiUrl(endpoint) {
+  return API_BASE_URL + endpoint;
+}
+// ============================================================================
+
 const initialProducts = [
   {
     id: 1,
@@ -427,7 +439,7 @@ function updateAuthButtons() {
 
 function fetchAdminUsers() {
   if (!state.currentUser || state.currentUser.role !== 'admin') return;
-  fetch('/api/admin/users').then((r) => r.json()).then((data) => {
+  fetch(makeApiUrl('/api/admin/users')).then((r) => r.json()).then((data) => {
     if (data && data.success) {
       state.adminUsers = data.users || [];
       renderAdminUsers();
@@ -464,7 +476,7 @@ if (usersList) {
     if (action === 'toggle-role') {
       const user = (state.adminUsers || []).find((x) => String(x.id) === String(userId));
       const newRole = user && user.role === 'admin' ? 'customer' : 'admin';
-      fetch(`/api/admin/users/${userId}`, {
+      fetch(makeApiUrl(`/api/admin/users/${userId}`, {
         method: 'PUT', headers: getRequestHeaders(),
         body: JSON.stringify({role: newRole})
       }).then((r) => r.json()).then((data) => { if (data.success) fetchAdminUsers(); else alert(data.message || 'Failed'); });
@@ -472,7 +484,7 @@ if (usersList) {
     if (action === 'toggle-disabled') {
       const user = (state.adminUsers || []).find((x) => String(x.id) === String(userId));
       const nowDisabled = user && user.disabled ? false : true;
-      fetch(`/api/admin/users/${userId}`, {
+      fetch(makeApiUrl(`/api/admin/users/${userId}`, {
         method: 'PUT', headers: getRequestHeaders(),
         body: JSON.stringify({disabled: nowDisabled})
       }).then((r) => r.json()).then((data) => { if (data.success) fetchAdminUsers(); else alert(data.message || 'Failed'); });
@@ -480,7 +492,7 @@ if (usersList) {
     if (action === 'reset-password') {
       const newPass = prompt('Enter temporary password for user:');
       if (!newPass) return;
-      fetch(`/api/admin/users/${userId}/reset-password`, {
+      fetch(makeApiUrl(`/api/admin/users/${userId}/reset-password`, {
         method: 'POST', headers: getRequestHeaders(),
         body: JSON.stringify({password: newPass})
       }).then((r) => r.json()).then((data) => { if (data.success) alert('Password reset'); else alert(data.message || 'Failed'); });
@@ -518,7 +530,7 @@ function closeAuthModal() {
 async function openSupportModal() {
   supportModal.classList.remove('hidden');
   try {
-    const resp = await fetch('/api/support');
+    const resp = await fetch(makeApiUrl('/api/support');
     const payload = resp.ok ? await resp.json() : null;
     const support = payload && payload.support ? payload.support : { email: 'admin@jacollections.com', phone: '+919876543210' };
     const detailsEl = supportModal.querySelector('.support-details');
@@ -552,7 +564,7 @@ async function openSupportModal() {
         const msgEl = detailsEl.querySelector('#supportMessage');
         const payload = { email: (emailInput.value || '').trim(), phone: (phoneInput.value || '').trim() };
         try {
-          const r = await fetch('/api/support', { method: 'PUT', headers: getRequestHeaders(), body: JSON.stringify(payload) });
+          const r = await fetch(makeApiUrl('/api/support', { method: 'PUT', headers: getRequestHeaders(), body: JSON.stringify(payload) });
           const res = await r.json();
           if (!r.ok) {
             msgEl.textContent = res.message || 'Unable to update support details.';
@@ -593,7 +605,7 @@ async function renderAccountInfo() {
   }
   let supportInfo = { email: 'admin@jacollections.com', phone: '+919876543210' };
   try {
-    const resp = await fetch('/api/support');
+    const resp = await fetch(makeApiUrl('/api/support');
     if (resp.ok) {
       const payload = await resp.json();
       if (payload && payload.support) supportInfo = payload.support;
@@ -640,7 +652,7 @@ async function saveProfile() {
   }
 
   try {
-    const response = await fetch('/api/auth/me', {
+    const response = await fetch(makeApiUrl('/api/auth/me', {
       method: 'PUT',
       headers: getRequestHeaders(),
       body: JSON.stringify(payload)
@@ -698,7 +710,7 @@ function renderOrders(orders) {
 async function fetchAdminOrders() {
   if (!state.currentUser || state.currentUser.role !== 'admin') return;
   try {
-    const resp = await fetch('/api/orders');
+    const resp = await fetch(makeApiUrl('/api/orders');
     if (!resp.ok) throw new Error('Unable to fetch orders');
     const payload = await resp.json();
     if (payload && Array.isArray(payload.orders)) {
@@ -741,7 +753,7 @@ if (adminOrdersList) {
     const id = sel.getAttribute('data-id');
     const status = sel.value;
     try {
-      const r = await fetch(`/api/orders/${id}`, { method: 'PUT', headers: getRequestHeaders(), body: JSON.stringify({ status }) });
+      const r = await fetch(makeApiUrl(`/api/orders/${id}`, { method: 'PUT', headers: getRequestHeaders(), body: JSON.stringify({ status }) });
       const p = await r.json();
       if (!r.ok) return setAdminMessage(p.message || 'Unable to update order');
       setAdminMessage('Order status updated');
@@ -758,7 +770,7 @@ if (adminOrdersList) {
     const id = btn.getAttribute('data-id');
     if (!confirm('Delete this order?')) return;
     try {
-      const r = await fetch(`/api/orders/${id}`, { method: 'DELETE', headers: getRequestHeaders(false) });
+      const r = await fetch(makeApiUrl(`/api/orders/${id}`, { method: 'DELETE', headers: getRequestHeaders(false) });
       const p = await r.json();
       if (!r.ok) return setAdminMessage(p.message || 'Unable to delete order');
       setAdminMessage('Order deleted');
@@ -829,7 +841,7 @@ if (typeof io !== 'undefined') {
 
 async function fetchOrders() {
   try {
-    const response = await fetch('/api/orders');
+    const response = await fetch(makeApiUrl('/api/orders');
     if (!response.ok) throw new Error('Unable to load orders');
     const payload = await response.json();
     if (payload.orders) {
@@ -842,7 +854,7 @@ async function fetchOrders() {
 
 async function fetchStripeConfig() {
   try {
-    const response = await fetch('/api/stripe/config');
+    const response = await fetch(makeApiUrl('/api/stripe/config');
     if (!response.ok) throw new Error('Stripe config unavailable');
     const payload = await response.json();
     state.stripeEnabled = Boolean(payload.enabled);
@@ -867,7 +879,7 @@ function updateCheckoutOptions() {
 
 async function loadUser() {
   try {
-    const response = await fetch('/api/auth/me');
+    const response = await fetch(makeApiUrl('/api/auth/me');
     if (!response.ok) throw new Error('Not signed in');
     const payload = await response.json();
     state.currentUser = payload.user;
@@ -948,7 +960,7 @@ async function submitAuthForm(event) {
 
 async function logout() {
   try {
-    await fetch('/api/auth/logout', { method: 'POST', headers: getRequestHeaders() });
+    await fetch(makeApiUrl('/api/auth/logout', { method: 'POST', headers: getRequestHeaders() });
   } catch (error) {
     console.warn('Logout failed', error);
   }
@@ -984,7 +996,7 @@ function saveProducts() {
 
 async function loadProductsFromApi() {
   try {
-    const response = await fetch('/api/products');
+    const response = await fetch(makeApiUrl('/api/products');
     if (!response.ok) throw new Error('Unable to load products');
     const payload = await response.json();
     if (Array.isArray(payload.products)) {
@@ -1004,7 +1016,7 @@ async function loadProductsFromApi() {
   products = loadProducts();
   // attempt to load categories to populate admin select
   try {
-    const cResp = await fetch('/api/categories');
+    const cResp = await fetch(makeApiUrl('/api/categories');
     if (cResp.ok) {
       const cPayload = await cResp.json();
       if (Array.isArray(cPayload.categories) && typeof populateCategorySelect === 'function') {
@@ -1021,7 +1033,7 @@ async function loadProductsFromApi() {
 
 async function fetchCategories() {
   try {
-    const resp = await fetch('/api/categories');
+    const resp = await fetch(makeApiUrl('/api/categories');
     if (!resp.ok) throw new Error('Unable to load categories');
     const payload = await resp.json();
     if (Array.isArray(payload.categories)) {
@@ -1035,7 +1047,7 @@ async function fetchCategories() {
 
 async function fetchOffers() {
   try {
-    const resp = await fetch('/api/offers');
+    const resp = await fetch(makeApiUrl('/api/offers');
     if (!resp.ok) throw new Error('Unable to load offers');
     const payload = await resp.json();
     if (Array.isArray(payload.offers)) {
@@ -1078,7 +1090,7 @@ if (createOfferButton) {
     const active = !!offerActive.checked;
     if (!title || discount <= 0) return setAdminMessage('Provide title and discount%');
     try {
-      const r = await fetch('/api/offers', { method: 'POST', headers: getRequestHeaders(), body: JSON.stringify({ title, description, discount_percent: discount, starts_at, ends_at, active }) });
+      const r = await fetch(makeApiUrl('/api/offers', { method: 'POST', headers: getRequestHeaders(), body: JSON.stringify({ title, description, discount_percent: discount, starts_at, ends_at, active }) });
       const p = await r.json();
       if (!r.ok) return setAdminMessage(p.message || 'Unable to create offer');
       setAdminMessage('Offer created');
@@ -1110,7 +1122,7 @@ if (offersList) {
       const newDesc = window.prompt('Description', o.description || '') || '';
       const newDiscount = window.prompt('Discount %', String(o.discount_percent || 0));
       try {
-        const r = await fetch(`/api/offers/${id}`, { method: 'PUT', headers: getRequestHeaders(), body: JSON.stringify({ title: newTitle.trim(), description: newDesc.trim(), discount_percent: Number(newDiscount) || 0 }) });
+        const r = await fetch(makeApiUrl(`/api/offers/${id}`, { method: 'PUT', headers: getRequestHeaders(), body: JSON.stringify({ title: newTitle.trim(), description: newDesc.trim(), discount_percent: Number(newDiscount) || 0 }) });
         const p = await r.json();
         if (!r.ok) return setAdminMessage(p.message || 'Unable to update offer');
         setAdminMessage('Offer updated');
@@ -1122,7 +1134,7 @@ if (offersList) {
     } else if (action === 'delete-offer') {
       if (!confirm('Delete this offer?')) return;
       try {
-        const r = await fetch(`/api/offers/${id}`, { method: 'DELETE', headers: getRequestHeaders(false) });
+        const r = await fetch(makeApiUrl(`/api/offers/${id}`, { method: 'DELETE', headers: getRequestHeaders(false) });
         const p = await r.json();
         if (!r.ok) return setAdminMessage(p.message || 'Unable to delete offer');
         setAdminMessage('Offer deleted');
@@ -1140,7 +1152,7 @@ if (offersList) {
     const id = chk.getAttribute('data-id');
     const active = chk.checked;
     try {
-      const r = await fetch(`/api/offers/${id}`, { method: 'PUT', headers: getRequestHeaders(), body: JSON.stringify({ active }) });
+      const r = await fetch(makeApiUrl(`/api/offers/${id}`, { method: 'PUT', headers: getRequestHeaders(), body: JSON.stringify({ active }) });
       const p = await r.json();
       if (!r.ok) return setAdminMessage(p.message || 'Unable to set active');
       setAdminMessage('Offer updated');
@@ -1180,7 +1192,7 @@ if (categoriesList) {
       const newName = window.prompt('New category name:');
       if (!newName) return;
       try {
-        const r = await fetch(`/api/categories/${id}`, { method: 'PUT', headers: getRequestHeaders(), body: JSON.stringify({ name: newName }) });
+        const r = await fetch(makeApiUrl(`/api/categories/${id}`, { method: 'PUT', headers: getRequestHeaders(), body: JSON.stringify({ name: newName }) });
         const p = await r.json();
         if (!r.ok) return setAdminMessage(p.message || 'Unable to update category');
         setAdminMessage('Category updated');
@@ -1193,7 +1205,7 @@ if (categoriesList) {
     } else if (action === 'delete') {
       if (!confirm('Delete this category? Products will move to "Uncategorized".')) return;
       try {
-        const r = await fetch(`/api/categories/${id}`, { method: 'DELETE', headers: getRequestHeaders(false) });
+        const r = await fetch(makeApiUrl(`/api/categories/${id}`, { method: 'DELETE', headers: getRequestHeaders(false) });
         const p = await r.json();
         if (!r.ok) return setAdminMessage(p.message || 'Unable to delete category');
         setAdminMessage('Category deleted');
@@ -1314,7 +1326,7 @@ async function importBulkProducts() {
   }
 
   try {
-    const response = await fetch('/api/products/import', {
+    const response = await fetch(makeApiUrl('/api/products/import', {
       method: 'POST',
       headers: getRequestHeaders(),
       body: JSON.stringify({ products: productsPayload })
@@ -1504,7 +1516,7 @@ inventoryList.addEventListener('click', async (event) => {
 
   if (action === 'delete') {
     try {
-      const response = await fetch(`/api/products/${productId}`, { method: 'DELETE', headers: getRequestHeaders(false) });
+      const response = await fetch(makeApiUrl(`/api/products/${productId}`, { method: 'DELETE', headers: getRequestHeaders(false) });
       if (!response.ok) throw new Error('Delete failed');
       await loadProductsFromApi();
       setAdminMessage(`${product.name} was removed.`);
@@ -1514,7 +1526,7 @@ inventoryList.addEventListener('click', async (event) => {
     }
   } else if (action === 'restock') {
     try {
-      const response = await fetch(`/api/products/${productId}`, {
+      const response = await fetch(makeApiUrl(`/api/products/${productId}`, {
         method: 'PUT',
         headers: getRequestHeaders(),
         body: JSON.stringify({ ...product, stock: Number(product.stock) + 8 })
@@ -1591,7 +1603,7 @@ checkoutPayment.addEventListener('change', () => {
 
 async function createStripeCheckout(items, total, customerName, address) {
   try {
-    const response = await fetch('/api/stripe/create-checkout-session', {
+    const response = await fetch(makeApiUrl('/api/stripe/create-checkout-session', {
       method: 'POST',
       headers: getRequestHeaders(),
       body: JSON.stringify({
@@ -1661,7 +1673,7 @@ placeOrderButton.addEventListener('click', async () => {
       return;
     }
 
-    const response = await fetch('/api/orders', {
+    const response = await fetch(makeApiUrl('/api/orders', {
       method: 'POST',
       headers: getRequestHeaders(),
       body: JSON.stringify(payload)
@@ -1736,7 +1748,7 @@ if (addCategoryButton) {
     const name = (newCategoryInput.value || '').trim();
     if (!name) return;
     try {
-      const resp = await fetch('/api/categories', { method: 'POST', headers: getRequestHeaders(), body: JSON.stringify({ name }) });
+      const resp = await fetch(makeApiUrl('/api/categories', { method: 'POST', headers: getRequestHeaders(), body: JSON.stringify({ name }) });
       const payload = await resp.json();
       if (!resp.ok) {
         setAdminMessage(payload.message || 'Unable to add category');
@@ -1744,7 +1756,7 @@ if (addCategoryButton) {
       }
       setAdminMessage('Category added');
       newCategoryInput.value = '';
-      const cResp = await fetch('/api/categories');
+      const cResp = await fetch(makeApiUrl('/api/categories');
       if (cResp.ok) {
         const cPayload = await cResp.json();
         if (Array.isArray(cPayload.categories)) {
@@ -1771,7 +1783,7 @@ window.addEventListener('keydown', (event) => {
 
 async function syncMarketplaceStatus() {
   try {
-    const response = await fetch('/api/health');
+    const response = await fetch(makeApiUrl('/api/health');
     if (!response.ok) throw new Error('Health check failed');
     const payload = await response.json();
     state.orderCount = payload.orders || 0;
