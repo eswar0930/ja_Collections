@@ -428,12 +428,5 @@
 
     <script src="/socket.io/socket.io.js"></script>
     <script src="app.js"></script>
-    <script>
-      if ('serviceWorker' in navigator) {
-        window.addEventListener('load', () => {
-          navigator.serviceWorker.register('./service-worker.js').catch(console.error);
-        });
-      }
-    </script>
   </body>
 </html>
