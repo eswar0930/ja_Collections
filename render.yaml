@@ -1,21 +1,20 @@
 services:
   - type: web
-      name: ja-collections-api
-          runtime: python
-              plan: free
-                  buildCommand: "pip install -r requirements.txt"
-                      startCommand: "gunicorn -w 1 server:app -b 0.0.0.0:10000"
-                          envVars:
-                                - key: FLASK_ENV
-                                        value: production
-                                              - key: FLASK_DEBUG
-                                                      value: "false"
-                                                            - key: SECRET_KEY
-                                                                    generateValue: true
-                                                                          - key: DATABASE_PATH
-                                                                                  value: shop.db
-                                                                                        - key: SESSION_COOKIE_SECURE
-                                                                                                value: "true"
-                                                                                                      - key: STRICT_ADMIN_AUTH
-                                                                                                              value: "false"
-                                                                                                              
+    name: ja-collections-api
+    runtime: python
+    plan: free
+    buildCommand: "pip install -r requirements.txt"
+    startCommand: "gunicorn -w 1 server:app -b 0.0.0.0:10000"
+    envVars:
+      - key: FLASK_ENV
+        value: production
+      - key: FLASK_DEBUG
+        value: "false"
+      - key: SECRET_KEY
+        generateValue: true
+      - key: DATABASE_PATH
+        value: shop.db
+      - key: SESSION_COOKIE_SECURE
+        value: "true"
+      - key: STRICT_ADMIN_AUTH
+        value: "false"
