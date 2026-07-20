@@ -11,6 +11,6 @@ ENV FLASK_ENV=production
 ENV FLASK_DEBUG=0
 ENV SESSION_COOKIE_SECURE=1
 
-EXPOSE 5000
+EXPOSE 10000
 
-CMD ["gunicorn", "-k", "eventlet", "-w", "1", "server:app", "-b", "0.0.0.0:5000"]
+CMD ["gunicorn", "-w", "1", "server:app", "-b", "0.0.0.0:10000"]
